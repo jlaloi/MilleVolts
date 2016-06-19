@@ -27,7 +27,7 @@ then
 _{  
     "title": "Developeur FrontEnd",   
     "description":" React, HTML5, CSS3",  
-    "company": &lt;E. Corp&gt; ID,  
+    "company": &lt;E. Corp ID&gt;,  
     "region": &lt;Enum ID&gt;,  
     "city": "Paris",  
     "contractType": &lt;Enum ID&gt;  
