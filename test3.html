@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test 3</title>
+    <script>
+
+        /**
+         * Original function or class or whatever :)
+         */
+        function CompanySearchGroup() {
+            this.contacts = [];
+            this.updateContactsBySearch = function (text) {
+                text = text ? text : '';
+                var companies;
+                this.contacts = [];
+                return new Promise(function (resolve, reject) {
+                    searchCompanies({name: new RegExp(text)}).then(function (comp) {
+                        companies = comp;
+                        searchContacts({
+                            firstname: new RexExp(text),
+                            lastname: new RegExp(text)
+                        }).then(function (contacts) {
+                            this.contacts = contacts;
+                        });
+                        var companiesId = [];
+                        for (c = 0; c < companies.length; c++) {
+                            companiesId.push(companies[c].id);
+                        }
+                        searchContacts({company: companiesId}).then(function (contacts) {
+                            for (c = 0; c < contacts.length; c++) {
+                                this.contacts.push(contacts[c]);
+                            }
+                            ;
+                            resolve(this.contacts);
+                        });
+                    });
+                });
+            }
+        }
+
+        /**
+         * Dummies functions for testing purpose
+         */
+        let cpt = 0;
+        function searchContacts(user) {
+            return new Promise((resolve, reject) = > {
+                        resolve([ {firstname: 'F1', lastname: "L" + (++cpt) }, {firstname: 'F2', lastname: "L" + (++cpt) }]);
+        })
+            ;
+        }
+        function searchCompanies(text) {
+            return new Promise((resolve, reject) = > {resolve([{id: '1', name: 'C1'}, {id: '2', name: 'C2'}])}
+        )
+            ;
+        }
+
+        let contacts = [];
+        /**
+         * Search for contact matching on user attributes and company name
+         * @param text The text to look for
+         */
+        function updateContactsBySearch(text) {
+
+            const pattern = new RegExp(text ? text : '');
+
+            /**
+             * First promise to match on an user firstname or lastname
+             */
+            const searchBasic = searchContacts({firstname: pattern, lastname: pattern});
+
+            /**
+             * Second promise to match on company name and then get all companies contacts
+             */
+            const searchCompanyContact = searchCompanies({name: pattern})
+                            .then(companies = > companies.map(company = > company.id
+        ))
+        .
+            then(companiesId = > {
+                return companiesId.length ? searchContacts({company: companiesId}) : [];
+        })
+            ;
+
+            /**
+             * Execute both promises and concatenate results
+             */
+            return Promise.all([searchBasic, searchCompanyContact])
+                            .then(([contactBasic, contactCompanies]) = > {return contacts = contactBasic.concat(contactCompanies)}
+        )
+            ;
+        }
+
+        updateContactsBySearch("Julien").then(result = > console.log(result)
+        )
+        ;
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

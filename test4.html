@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en" ng-app="main">
+<head>
+    <meta charset="UTF-8">
+    <script
+            src="http://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+            crossorigin="anonymous"></script>
+    <style>
+        a {
+            color: rebeccapurple;
+            text-decoration: none;
+        }
+
+        .active {
+            border: 1px solid green;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="accordion">
+    <section class="accordion-block">
+        <a href="#block1" class="accordion-handle">Bloc 1</a>
+
+        <div id="block1" class="accordion-content">Contenu 1</div>
+    </section>
+    <section class="accordion-block active">
+        <a href="#block2" class="accordion-handle">Bloc 2</a>
+
+        <div id="block2" class="accordion-content">Contenu 2</div>
+    </section>
+    <section class="accordion-block">
+        <a href="#block3" class="accordion-handle">Bloc 3</a>
+
+        <div id="block3" class="accordion-content">Contenu 3</div>
+    </section>
+</div>
+
+<script>
+    // VOTRE CODE ICI
+    // Bien prendre en compte la classe “active" qui doit être à jour en fonction de l’élément actuellement visible et qui désigne également le bloc visible au chargement de la page
+    // La classe “active" ne gère pas l’affichage / le masquage des blocs, seulement une mise en forme particulière (le fonctionnel de l’accordéon doit être fait via jQuery)
+    // Il est autorisé de manipuler en Javascript le code HTML, à condition de respecter la hiérarchie et les classes existantes (non destructif)
+    // Les contenus peuvent être de longueur (très) variable
+    /**
+     * Hide not "active" accordion-content
+     */
+    function accordionHide() {
+        $(".accordion .accordion-block:not(.active) .accordion-content ").hide();
+    }
+    /**
+     * Add on click listener on accordion-handle to show the related accordion-content
+     */
+    $(".accordion .accordion-block .accordion-handle").click(function () {
+        // Change active class to the related accordion-block
+        $(".accordion .accordion-block.active").removeClass("active");
+        $(this).parent().addClass("active");
+        // Set the accordion-content visiblity
+        accordionHide();
+        $(this).next().show();
+    });
+    /**
+     * Hide by default inactive accordion-content
+     */
+    accordionHide();
+
+</script>
+
+</body>
+</html>

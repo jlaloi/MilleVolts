@@ -1,0 +1,13 @@
+node-opportunity:
+  build: .
+  links:
+    - db-mongo
+  ports:
+    - "9090:9090"
+  links:
+    - mongo
+
+mongo:
+  image: mongo:latest
+  ports:
+    - "27017:27017"
