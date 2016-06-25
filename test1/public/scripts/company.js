@@ -4,20 +4,20 @@ const API_COMPANY_URL = "/api/company";
  * Create company form
  */
 var CompanyCreateForm = React.createClass({
-    getInitialState: function () {
+    getInitialState() {
         return {name: '', mail: ''};
     },
-    handleNameChange: function (e) {
+    handleNameChange(e) {
         this.setState({name: e.target.value});
     },
-    handleMailChange: function (e) {
+    handleMailChange(e) {
         this.setState({mail: e.target.value});
     },
-    createCompany: function () {
+    createCompany() {
         this.props.createCompany(this.state);
         this.setState({name: '', mail: ''});
     },
-    render: function () {
+    render() {
         return (
             <div>
                 <input
@@ -43,7 +43,7 @@ var CompanyCreateForm = React.createClass({
  * Company display
  */
 var Company = React.createClass({
-    render: function () {
+    render() {
         return (
             <li>
                 <b>#{this.props.company._id}</b> {this.props.company.name} <i>({this.props.company.mail})</i>
@@ -55,7 +55,7 @@ var Company = React.createClass({
  * Company list
  */
 var CompanyList = React.createClass({
-    render: function () {
+    render() {
         var companies = this.props.companies.map(function (company) {
             return (<Company key={company._id} company={company}/>);
         });
@@ -67,13 +67,13 @@ var CompanyList = React.createClass({
  * Company element (existing entries + create form)
  */
 var CompanyDisplay = React.createClass({
-    getInitialState: function () {
+    getInitialState() {
         return {companies: []};
     },
-    componentDidMount: function () {
+    componentDidMount() {
         this.loadCompaniesFromServer();
     },
-    loadCompaniesFromServer: function () {
+    loadCompaniesFromServer() {
         $.ajax({
             url: API_COMPANY_URL,
             dataType: 'json',
@@ -86,7 +86,7 @@ var CompanyDisplay = React.createClass({
             }.bind(this)
         });
     },
-    submitCompany: function (company) {
+    submitCompany(company) {
         $.ajax({
             url: API_COMPANY_URL,
             dataType: 'json',
@@ -101,7 +101,7 @@ var CompanyDisplay = React.createClass({
         });
         this.setState({name: '', mail: ''});
     },
-    render: function () {
+    render() {
         return (
             <div>
                 <h1>Company</h1>
