@@ -32,7 +32,8 @@ var CompanyCreateForm = React.createClass({
                     value={this.state.mail}
                     onChange={this.handleMailChange}
                 />
-                <input type="button" value="Create" onClick={this.createCompany}/>
+                <input type="button" value="Create" onClick={this.createCompany}
+                       disabled={!(this.state.name && this.state.mail)}/>
             </form>
         );
     }
@@ -44,9 +45,9 @@ var CompanyCreateForm = React.createClass({
 var Company = React.createClass({
     render: function () {
         return (
-            <div>
-                <b>#{this.props.company._id}</b> {this.props.company.name} + <i>({this.props.company.mail})</i>
-            </div>);
+            <li>
+                <b>#{this.props.company._id}</b> {this.props.company.name} <i>({this.props.company.mail})</i>
+            </li>);
     }
 });
 
@@ -58,7 +59,7 @@ var CompanyList = React.createClass({
         var companies = this.props.companies.map(function (company) {
             return (<Company key={company._id} company={company}/>);
         });
-        return (<div>{companies}</div>);
+        return (<ul>{companies}</ul>);
     }
 });
 

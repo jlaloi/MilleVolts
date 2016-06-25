@@ -1,0 +1,17 @@
+body, input {
+    color: #444;
+    font-family: "DejaVu Sans Condensed";
+}
+
+input {
+    font-size: 1em;
+    background: white;
+    border: 1px solid mediumorchid;
+    border-radius: 3px;
+    margin-right: 4px;
+}
+
+input:disabled {
+    border-color: #ccc;
+    color: #ccc;
+}
