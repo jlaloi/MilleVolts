@@ -42,26 +42,27 @@ var CompanyCreateForm = React.createClass({
 /**
  * Company display
  */
-var Company = React.createClass({
+class Company extends React.Component {
     render() {
         return (
             <li>
                 <b>#{this.props.company._id}</b> {this.props.company.name} <i>({this.props.company.mail})</i>
             </li>);
     }
-});
+}
 
 /**
  * Company list
  */
-var CompanyList = React.createClass({
+class CompanyList extends React.Component {
     render() {
         var companies = this.props.companies.map(function (company) {
             return (<Company key={company._id} company={company}/>);
         });
         return (<ul>{companies}</ul>);
     }
-});
+}
+;
 
 /**
  * Company element (existing entries + create form)
