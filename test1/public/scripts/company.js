@@ -1,27 +1,21 @@
+const API_COMPANY_URL = "/api/company";
+
+/**
+ * Create company form
+ */
 var CompanyCreateForm = React.createClass({
     getInitialState: function () {
         return {name: '', mail: ''};
-    },
-    submitCompany: function () {
-        $.ajax({
-            url: '/api/company',
-            dataType: 'json',
-            type: 'POST',
-            data: {name: this.state.name, mail: this.state.mail},
-            success: function (data) {
-                this.setState({result: data});
-            }.bind(this),
-            error: function (xhr, status, err) {
-                console.error(this.props.url, status, err.toString());
-            }.bind(this)
-        });
-        this.setState({name: '', mail: ''});
     },
     handleNameChange: function (e) {
         this.setState({name: e.target.value});
     },
     handleMailChange: function (e) {
         this.setState({mail: e.target.value});
+    },
+    createCompany: function () {
+        this.props.createCompany(this.state);
+        this.setState({name: '', mail: ''});
     },
     render: function () {
         return (
@@ -38,12 +32,15 @@ var CompanyCreateForm = React.createClass({
                     value={this.state.mail}
                     onChange={this.handleMailChange}
                 />
-                <input type="button" value="Create" onClick={this.submitCompany}/>
+                <input type="button" value="Create" onClick={this.createCompany}/>
             </form>
         );
     }
 });
 
+/**
+ * Company display
+ */
 var Company = React.createClass({
     render: function () {
         return (
@@ -53,39 +50,65 @@ var Company = React.createClass({
     }
 });
 
+/**
+ * Company list
+ */
 var CompanyList = React.createClass({
-    getInitialState: function () {
-        return {companies: []};
-    },
-    componentDidMount: function () {
-        this.loadCompaniesFromServer();
-        setInterval(this.loadCompaniesFromServer, 2000);
-    },
-    loadCompaniesFromServer: function () {
-        $.ajax({
-            url: 'api/company',
-            dataType: 'json',
-            cache: false,
-            success: function (data) {
-                this.setState({companies: data});
-            }.bind(this),
-            error: function (xhr, status, err) {
-                console.error(this.props.url, status, err.toString());
-            }.bind(this)
-        });
-    },
     render: function () {
-        var companies = this.state.companies.map(function (company) {
+        var companies = this.props.companies.map(function (company) {
             return (<Company key={company._id} company={company}/>);
         });
         return (<div>{companies}</div>);
     }
 });
 
-ReactDOM.render(
-    <div>
-        <CompanyList />
-        <CompanyCreateForm />
-    </div>,
-    document.getElementById('content')
-);
+/**
+ * Company element (existing entries + create form)
+ */
+var CompanyDisplay = React.createClass({
+    getInitialState: function () {
+        return {companies: []};
+    },
+    componentDidMount: function () {
+        this.loadCompaniesFromServer();
+    },
+    loadCompaniesFromServer: function () {
+        $.ajax({
+            url: API_COMPANY_URL,
+            dataType: 'json',
+            cache: false,
+            success: function (data) {
+                this.setState({companies: data});
+            }.bind(this),
+            error: function (xhr, status, err) {
+                console.error(API_COMPANY_URL, status, err.toString());
+            }.bind(this)
+        });
+    },
+    submitCompany: function (company) {
+        $.ajax({
+            url: API_COMPANY_URL,
+            dataType: 'json',
+            type: 'POST',
+            data: company,
+            success: function (data) {
+                this.loadCompaniesFromServer();
+            }.bind(this),
+            error: function (xhr, status, err) {
+                console.error(API_COMPANY_URL, status, err.toString());
+            }.bind(this)
+        });
+        this.setState({name: '', mail: ''});
+    },
+    render: function () {
+        return (
+            <div>
+                <h1>Company</h1>
+                <CompanyList companies={this.state.companies}/>
+                <CompanyCreateForm createCompany={this.submitCompany}/>
+            </div>
+        );
+    }
+});
+
+ReactDOM.render(<CompanyDisplay />, document.getElementById('content'));
