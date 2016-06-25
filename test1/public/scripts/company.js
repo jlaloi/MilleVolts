@@ -19,7 +19,7 @@ var CompanyCreateForm = React.createClass({
     },
     render: function () {
         return (
-            <form className="commentForm">
+            <div>
                 <input
                     type="text"
                     placeholder="Name"
@@ -34,7 +34,7 @@ var CompanyCreateForm = React.createClass({
                 />
                 <input type="button" value="Create" onClick={this.createCompany}
                        disabled={!(this.state.name && this.state.mail)}/>
-            </form>
+            </div>
         );
     }
 });
