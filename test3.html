@@ -44,15 +44,12 @@
          */
         let cpt = 0;
         function searchContacts(user) {
-            return new Promise((resolve, reject) = > {
-                        resolve([ {firstname: 'F1', lastname: "L" + (++cpt) }, {firstname: 'F2', lastname: "L" + (++cpt) }]);
-        })
-            ;
+            return new Promise((resolve, reject) => {
+                        resolve([ {firstname: 'F1', lastname: "L" + (++cpt) }, {firstname: 'F2', lastname: "L" + (++cpt) }])
+                    });
         }
         function searchCompanies(text) {
-            return new Promise((resolve, reject) = > {resolve([{id: '1', name: 'C1'}, {id: '2', name: 'C2'}])}
-        )
-            ;
+            return new Promise((resolve, reject) => {resolve([{id: '1', name: 'C1'}, {id: '2', name: 'C2'}])});
         }
 
         let contacts = [];
@@ -73,26 +70,19 @@
              * Second promise to match on company name and then get all companies contacts
              */
             const searchCompanyContact = searchCompanies({name: pattern})
-                            .then(companies = > companies.map(company = > company.id
-        ))
-        .
-            then(companiesId = > {
-                return companiesId.length ? searchContacts({company: companiesId}) : [];
-        })
-            ;
+                            .then(companies => companies.map(company => company.id))
+                            .then(companiesId => {
+                                    return companiesId.length ? searchContacts({company: companiesId}) : [];
+                            });
 
             /**
              * Execute both promises and concatenate results
              */
             return Promise.all([searchBasic, searchCompanyContact])
-                            .then(([contactBasic, contactCompanies]) = > {return contacts = contactBasic.concat(contactCompanies)}
-        )
-            ;
+                            .then(([contactBasic, contactCompanies]) => {return contacts = contactBasic.concat(contactCompanies)});
         }
 
-        updateContactsBySearch("Julien").then(result = > console.log(result)
-        )
-        ;
+        updateContactsBySearch("Julien").then(result => console.log(result));
 
     </script>
 </head>
