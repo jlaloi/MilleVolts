@@ -44,7 +44,7 @@ this.getLowestJSFile = function (files, cb) {
     /**
      * Filter the file list with JS files
      */
-    var jsFiles = files.filter(function (element, index, array) {
+    var jsFiles = files.filter((element, index, array) => {
         return element.match(/\.js$/, element);
     });
 
@@ -52,8 +52,7 @@ this.getLowestJSFile = function (files, cb) {
      * If no relevant files exit
      */
     if (!jsFiles.length) {
-        cb(null);
-        return;
+        return cb(null);
     }
 
     /**
@@ -74,7 +73,7 @@ this.getLowestJSFile = function (files, cb) {
 /**
  * Execute to test
  */
-this.getLowestJSFile(['test2.js', 'test3.html', 'test1/app/models/application.js', 'test1/app/models/opportunity.js'], json => {
-    console.log('Result: ' + json)
+this.getLowestJSFile(['test2.js', 'test3.html', 'test1/app/models/application.js', 'test1/app/models/opportunity.js'], fileName => {
+    console.log('Result: ' + fileName)
 });
 

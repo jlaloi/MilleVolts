@@ -59,7 +59,7 @@
          */
         function updateContactsBySearch(text) {
 
-            const pattern = new RegExp(text ? text : '');
+            const pattern = new RegExp(text || '');
 
             /**
              * First promise to match on an user firstname or lastname
@@ -72,7 +72,7 @@
             const searchCompanyContact = searchCompanies({name: pattern})
                             .then(companies => companies.map(company => company.id))
                             .then(companiesId => {
-                                    return companiesId.length ? searchContacts({company: companiesId}) : [];
+                                   return companiesId.length ? searchContacts({company: companiesId}) : [];
                             });
 
             /**
